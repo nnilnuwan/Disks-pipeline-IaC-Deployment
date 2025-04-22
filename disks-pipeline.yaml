@@ -73,6 +73,7 @@ steps:
       backendAzureRmKey: $(tfstateKey)
       # workingDirectory: .
 
+<<<<<<< HEAD
   - script: |
       echo "VM NAME: ${{ parameters.vm_name }}"
       echo "RESOURCE GROUP: ${{ parameters.resource_group_name }}"
@@ -115,3 +116,45 @@ steps:
         -var="disk_size_gb=${{ parameters.disk_size_gb }}"
         -var="vnet_name=${{ parameters.vnet_name }}"
         -var="subnet_name=${{ parameters.subnet_name }}"
+=======
+- script: |
+    echo "VM NAME: ${{ parameters.vm_name }}"
+    echo "RESOURCE GROUP: ${{ parameters.resource_group_name }}"
+    echo "REGION: ${{ parameters.region }}"
+    echo "DISK TYPE: ${{ parameters.disk_type }}"
+    echo "DISK COUNT: ${{ parameters.disk_count }}"
+    echo "DISK SIZE (GB): ${{ parameters.disk_size_gb }}"
+  displayName: '🔍 Debug: Show input values'
+
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Plan'
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    environmentServiceNameAzureRM: $(planServiceConnection)
+    #workingDirectory: .
+    commandOptions: >
+      -var="vm_name=${{ parameters.vm_name }}"
+      -var="resource_group_name=${{ parameters.resource_group_name }}"
+      -var="region=${{ parameters.region }}"
+      -var="disk_type=${{ parameters.disk_type }}"
+      -var="disk_count=${{ parameters.disk_count }}"
+      -var="disk_size_gb=${{ parameters.disk_size_gb }}"
+    
+
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Apply'
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    environmentServiceNameAzureRM: $(applyServiceConnection)
+   # workingDirectory: .
+    commandOptions: >
+      -var="vm_name=${{ parameters.vm_name }}"
+      -var="resource_group_name=${{ parameters.resource_group_name }}"
+      -var="region=${{ parameters.region }}"
+      -var="disk_type=${{ parameters.disk_type }}"
+      -var="disk_count=${{ parameters.disk_count }}"
+      -var="disk_size_gb=${{ parameters.disk_size_gb }}"
+   
+>>>>>>> 6a616b6 (final test)

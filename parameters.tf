@@ -1,5 +1,3 @@
-
-
 variable "resource_group_name" {
   type        = string
   description = "Resource group name"
@@ -32,11 +30,4 @@ variable "disk_type" {
   description = "Type of the managed disk (e.g. Standard_LRS, Premium_LRS)"
   #default     = "Standard_LRS"
 }
-
-variable "disk_name" {
-  type = string
-  description = "Disk name"
-  
-}
-
 
