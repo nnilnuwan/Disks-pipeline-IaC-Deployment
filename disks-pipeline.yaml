@@ -73,7 +73,7 @@ steps:
 - script: |
     echo "⚠️ WARNING: Forcing unlock of Terraform state!"
     terraform force-unlock -force 37b350b6-6070-34da-5ef1-bce16aae50db
-  workingDirectory: $(tfWorkingDir)
+  #workingDirectory: $(tfWorkingDir)
   displayName: 'Force Unlock Terraform State'
   env:
     ARM_CLIENT_ID: $(ARM_CLIENT_ID)
