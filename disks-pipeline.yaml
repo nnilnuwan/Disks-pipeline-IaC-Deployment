@@ -22,7 +22,7 @@ parameters:
   - name: resource_group_name
     displayName: "Resource Group Name"
     type: string
-    default: "demo-rg"
+    default: "test-RG"
 
   - name: region
     displayName: "Azure Region"
