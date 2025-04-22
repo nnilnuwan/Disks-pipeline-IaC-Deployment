@@ -1,0 +1,103 @@
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  resourceGroup: 'backend-storage'
+  storageAccount: 'adostorage01'
+  containerName: 'backend'
+  tfstateKey: 'vm_with_disks.tfstate'
+  backendServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
+  planServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
+  applyServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
+  tfWorkingDir: '$(System.DefaultWorkingDirectory)/VM-With-Disks'
+
+parameters:
+  - name: vm_name
+    displayName: "Virtual Machine Name"
+    type: string
+    default: "demo-vm01"
+
+  - name: resource_group_name
+    displayName: "Resource Group Name"
+    type: string
+    default: "demo-rg"
+
+  - name: region
+    displayName: "Azure Region"
+    type: string
+    default: "East US"
+
+  - name: disk_type
+    displayName: "Disk Type"
+    type: string
+    default: "Standard_LRS"
+
+  - name: disk_count
+    displayName: "Disk Count"
+    type: number
+    default: 2
+
+  - name: disk_size_gb
+    displayName: "Disk Size (GB)"
+    type: number
+    default: 128
+
+steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
+  displayName: 'Install Terraform'
+  inputs:
+    terraformVersion: '1.5.7'
+
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Init'
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendAzureRmUseEntraIdForAuthentication: true
+    backendServiceArm: $(backendServiceConnection)
+    backendAzureRmResourceGroupName: $(resourceGroup)
+    backendAzureRmStorageAccountName: $(storageAccount)
+    backendAzureRmContainerName: $(containerName)
+    backendAzureRmKey: $(tfstateKey)
+    workingDirectory: $(tfWorkingDir)
+
+- script: |
+    echo "VM NAME: ${{ parameters.vm_name }}"
+    echo "RESOURCE GROUP: ${{ parameters.resource_group_name }}"
+    echo "REGION: ${{ parameters.region }}"
+    echo "DISK TYPE: ${{ parameters.disk_type }}"
+    echo "DISK COUNT: ${{ parameters.disk_count }}"
+    echo "DISK SIZE (GB): ${{ parameters.disk_size_gb }}"
+  displayName: '🔍 Debug: Show input values'
+
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Plan'
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    environmentServiceNameAzureRM: $(planServiceConnection)
+    workingDirectory: $(tfWorkingDir)
+    commandOptions: >
+      -var="vm_name=${{ parameters.vm_name }}"
+      -var="resource_group_name=${{ parameters.resource_group_name }}"
+      -var="region=${{ parameters.region }}"
+      -var="disk_type=${{ parameters.disk_type }}"
+      -var="disk_count=${{ parameters.disk_count }}"
+      -var="disk_size_gb=${{ parameters.disk_size_gb }}"
+
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Apply'
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    environmentServiceNameAzureRM: $(applyServiceConnection)
+    workingDirectory: $(tfWorkingDir)
+    commandOptions: >
+      -var="vm_name=${{ parameters.vm_name }}"
+      -var="resource_group_name=${{ parameters.resource_group_name }}"
+      -var="region=${{ parameters.region }}"
+      -var="disk_type=${{ parameters.disk_type }}"
+      -var="disk_count=${{ parameters.disk_count }}"
+      -var="disk_size_gb=${{ parameters.disk_size_gb }}"
