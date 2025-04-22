@@ -69,17 +69,7 @@ steps:
     backendAzureRmKey: $(tfstateKey)
     #workingDirectory: .
 
-# Step 3: Force Unlock Terraform State
-- script: |
-    echo "⚠️ WARNING: Forcing unlock of Terraform state!"
-    terraform force-unlock -force 37b350b6-6070-34da-5ef1-bce16aae50db
-  #workingDirectory: $(tfWorkingDir)
-  displayName: 'Force Unlock Terraform State'
-  env:
-    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-    ARM_TENANT_ID: $(ARM_TENANT_ID)
+
 
 - script: |
     echo "DISK NAME: ${{ parameters.disk_name }}"
