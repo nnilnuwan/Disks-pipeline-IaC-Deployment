@@ -17,7 +17,7 @@ parameters:
   - name: vm_name
     displayName: "Virtual Machine Name"
     type: string
-    default: "demo-vm01"
+    default: "demo-vm1"
 
   - name: resource_group_name
     displayName: "Resource Group Name"
