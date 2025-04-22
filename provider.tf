@@ -3,3 +3,4 @@ terraform {
 
   backend "azurerm" {}
 }
+
