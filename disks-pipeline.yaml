@@ -4,7 +4,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  resourceGroup: 'backend-storage'
+  backendResourceGroup: 'backend-storage'
   storageAccount: 'adostorage01'
   containerName: 'backend'
   tfstateKey: 'vm_with_disks.tfstate'
@@ -67,7 +67,7 @@ steps:
     command: 'init'
     backendAzureRmUseEntraIdForAuthentication: true
     backendServiceArm: $(backendServiceConnection)
-    backendAzureRmResourceGroupName: $(resourceGroup)
+    backendAzureRmResourceGroupName: $(backendResourceGroup)
     backendAzureRmStorageAccountName: $(storageAccount)
     backendAzureRmContainerName: $(containerName)
     backendAzureRmKey: $(tfstateKey)
