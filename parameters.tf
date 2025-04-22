@@ -16,19 +16,19 @@ variable "vm_name" {
 variable "disk_count" {
   type        = number
   description = "Number of data disks to attach"
-  default     = 1
+  #default     = 1
 }
 
 variable "disk_size_gb" {
   type        = number
   description = "Size of each disk in GB"
-  default     = 128
+  #default     = 128
 }
 
 variable "disk_type" {
   type        = string
   description = "Type of the managed disk (e.g. Standard_LRS, Premium_LRS)"
-  default     = "Standard_LRS"
+  #default     = "Standard_LRS"
 }
 
 variable "vnet_name" {
