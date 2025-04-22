@@ -31,12 +31,4 @@ variable "disk_type" {
   #default     = "Standard_LRS"
 }
 
-variable "vnet_name" {
-  type        = string
-  description = "Name of the Virtual Network"
-}
 
-variable "subnet_name" {
-  type        = string
-  description = "Name of the Subnet within the VNet"
-}
