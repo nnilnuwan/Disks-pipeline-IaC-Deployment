@@ -97,10 +97,10 @@ steps:
     environmentServiceNameAzureRM: $(planServiceConnection)
     #workingDirectory: .
     commandOptions: >
-      -var="disk_name=${{ parameters.disk_name }}""
       -var="vm_name=${{ parameters.vm_name }}"
       -var="resource_group_name=${{ parameters.resource_group_name }}"
       -var="region=${{ parameters.region }}"
+      -var="disk_name=${{ parameters.disk_name }}""
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_count=${{ parameters.disk_count }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
@@ -114,10 +114,10 @@ steps:
     environmentServiceNameAzureRM: $(applyServiceConnection)
    # workingDirectory: .
     commandOptions: >
-      -var="disk_name=${{ parameters.disk_name }}""
       -var="vm_name=${{ parameters.vm_name }}"
       -var="resource_group_name=${{ parameters.resource_group_name }}"
       -var="region=${{ parameters.region }}"
+      -var="disk_name=${{ parameters.disk_name }}""
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_count=${{ parameters.disk_count }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
