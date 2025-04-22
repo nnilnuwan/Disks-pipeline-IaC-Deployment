@@ -70,6 +70,18 @@ steps:
     #workingDirectory: .
 
 
+# Step 3: Force Unlock Terraform State
+- script: |
+    echo "⚠️ WARNING: Forcing unlock of Terraform state!"
+    terraform force-unlock -force 237b9cab-cdd1-ff6d-ea22-c1bec1e59d06
+  #workingDirectory: $(tfWorkingDir)
+  displayName: 'Force Unlock Terraform State'
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
+
 
 - script: |
     echo "DISK NAME: ${{ parameters.disk_name }}"
