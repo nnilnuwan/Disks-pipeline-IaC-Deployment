@@ -71,7 +71,7 @@ steps:
     backendAzureRmStorageAccountName: $(storageAccount)
     backendAzureRmContainerName: $(containerName)
     backendAzureRmKey: $(tfstateKey)
-    workingDirectory: $(tfWorkingDir)
+    workingDirectory: .
 
 - script: |
     echo "VM NAME: ${{ parameters.vm_name }}"
@@ -90,7 +90,7 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     environmentServiceNameAzureRM: $(planServiceConnection)
-    workingDirectory: $(tfWorkingDir)
+    workingDirectory: .
     commandOptions: >
       -var="vm_name=${{ parameters.vm_name }}"
       -var="resource_group_name=${{ parameters.resource_group_name }}"
@@ -107,7 +107,7 @@ steps:
     provider: 'azurerm'
     command: 'apply'
     environmentServiceNameAzureRM: $(applyServiceConnection)
-    workingDirectory: $(tfWorkingDir)
+    workingDirectory: .
     commandOptions: >
       -var="vm_name=${{ parameters.vm_name }}"
       -var="resource_group_name=${{ parameters.resource_group_name }}"
