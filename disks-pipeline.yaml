@@ -44,6 +44,16 @@ parameters:
     type: number
     default: 128
 
+  - name: vnet_name
+    displayName: "VNet Name"
+    type: string
+    default: "default-vnet"
+
+  - name: subnet_name
+    displayName: "Subnet Name"
+    type: string
+    default: "default-subnet"
+
 steps:
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
   displayName: 'Install Terraform'
@@ -70,6 +80,8 @@ steps:
     echo "DISK TYPE: ${{ parameters.disk_type }}"
     echo "DISK COUNT: ${{ parameters.disk_count }}"
     echo "DISK SIZE (GB): ${{ parameters.disk_size_gb }}"
+    echo "VNET NAME: ${{ parameters.vnet_name }}"
+    echo "SUBNET NAME: ${{ parameters.subnet_name }}"
   displayName: '🔍 Debug: Show input values'
 
 - task: TerraformTaskV4@4
@@ -86,6 +98,8 @@ steps:
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_count=${{ parameters.disk_count }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
+      -var="vnet_name=${{ parameters.vnet_name }}"
+      -var="subnet_name=${{ parameters.subnet_name }}"
 
 - task: TerraformTaskV4@4
   displayName: 'Terraform Apply'
@@ -101,3 +115,5 @@ steps:
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_count=${{ parameters.disk_count }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
+      -var="vnet_name=${{ parameters.vnet_name }}"
+      -var="subnet_name=${{ parameters.subnet_name }}"

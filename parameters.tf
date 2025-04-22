@@ -1,32 +1,42 @@
-variable "vm_name" {
-  description = "The name of the existing Virtual Machine"
-  type        = string
-}
-
 variable "resource_group_name" {
-  description = "The resource group containing the VM"
   type        = string
+  description = "Resource group name"
 }
 
 variable "region" {
-  description = "Azure region where the VM and disks are located"
   type        = string
+  description = "Azure region"
 }
 
-variable "disk_type" {
-  description = "The type of managed disk to attach"
+variable "vm_name" {
   type        = string
-  #default     = "Standard_LRS"
+  description = "Name of the existing virtual machine"
 }
 
 variable "disk_count" {
-  description = "Number of data disks to attach"
   type        = number
-  #default     = 1
+  description = "Number of data disks to attach"
+  default     = 1
 }
 
 variable "disk_size_gb" {
-  description = "Size of each disk in GB"
   type        = number
-  #default     = 128
+  description = "Size of each disk in GB"
+  default     = 128
+}
+
+variable "disk_type" {
+  type        = string
+  description = "Type of the managed disk (e.g. Standard_LRS, Premium_LRS)"
+  default     = "Standard_LRS"
+}
+
+variable "vnet_name" {
+  type        = string
+  description = "Name of the Virtual Network"
+}
+
+variable "subnet_name" {
+  type        = string
+  description = "Name of the Subnet within the VNet"
 }
