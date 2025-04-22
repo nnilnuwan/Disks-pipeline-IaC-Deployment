@@ -14,8 +14,14 @@ variables:
   #tfWorkingDir: '$(System.DefaultWorkingDirectory)/VM-With-Disks'
 
 parameters:
+
+  - name: disk_name
+    displayName : "Disk name"
+    type: string
+    default: "example disk"
+
   - name: vm_name
-    displayName: "Virtual Machine Name"
+    displayName: "Virtual Machine Name" 
     type: string
     default: "demo-vm1"
 
@@ -74,6 +80,7 @@ steps:
     #workingDirectory: .
 
 - script: |
+    echo "DISK NAME: ${{ parameters.disk_name }}"
     echo "VM NAME: ${{ parameters.vm_name }}"
     echo "RESOURCE GROUP: ${{ parameters.resource_group_name }}"
     echo "REGION: ${{ parameters.region }}"
@@ -90,6 +97,7 @@ steps:
     environmentServiceNameAzureRM: $(planServiceConnection)
     #workingDirectory: .
     commandOptions: >
+      -var="disk_name=${{ parameters.disk_name }}""
       -var="vm_name=${{ parameters.vm_name }}"
       -var="resource_group_name=${{ parameters.resource_group_name }}"
       -var="region=${{ parameters.region }}"
@@ -106,6 +114,7 @@ steps:
     environmentServiceNameAzureRM: $(applyServiceConnection)
    # workingDirectory: .
     commandOptions: >
+      -var="disk_name=${{ parameters.disk_name }}""
       -var="vm_name=${{ parameters.vm_name }}"
       -var="resource_group_name=${{ parameters.resource_group_name }}"
       -var="region=${{ parameters.region }}"
