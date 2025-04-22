@@ -11,7 +11,7 @@ variables:
   backendServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
   planServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
   applyServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
-  tfWorkingDir: '$(System.DefaultWorkingDirectory)/VM-With-Disks'
+  #tfWorkingDir: '$(System.DefaultWorkingDirectory)/VM-With-Disks'
 
 parameters:
   - name: vm_name
@@ -71,7 +71,7 @@ steps:
     backendAzureRmStorageAccountName: $(storageAccount)
     backendAzureRmContainerName: $(containerName)
     backendAzureRmKey: $(tfstateKey)
-    workingDirectory: .
+    #workingDirectory: .
 
 - script: |
     echo "VM NAME: ${{ parameters.vm_name }}"
@@ -90,7 +90,7 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     environmentServiceNameAzureRM: $(planServiceConnection)
-    workingDirectory: .
+    #workingDirectory: .
     commandOptions: >
       -var="vm_name=${{ parameters.vm_name }}"
       -var="resource_group_name=${{ parameters.resource_group_name }}"
@@ -107,7 +107,7 @@ steps:
     provider: 'azurerm'
     command: 'apply'
     environmentServiceNameAzureRM: $(applyServiceConnection)
-    workingDirectory: .
+   # workingDirectory: .
     commandOptions: >
       -var="vm_name=${{ parameters.vm_name }}"
       -var="resource_group_name=${{ parameters.resource_group_name }}"
