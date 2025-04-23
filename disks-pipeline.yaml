@@ -11,17 +11,11 @@ variables:
   backendServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
   planServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
   applyServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
-  #tfWorkingDir: '$(System.DefaultWorkingDirectory)/VM-With-Disks'
+  # tfWorkingDir: '$(System.DefaultWorkingDirectory)/VM-With-Disks'
 
 parameters:
-
-  - name: disk_name
-    displayName : "Disk name"
-    type: string
-    default: "example disk"
-
   - name: vm_name
-    displayName: "Virtual Machine Name" 
+    displayName: "Virtual Machine Name"
     type: string
     default: "demo-vm1"
 
@@ -33,7 +27,7 @@ parameters:
   - name: region
     displayName: "Azure Region"
     type: string
-    default: "Southeast Asia"
+    default: "East US"
 
   - name: disk_type
     displayName: "Disk Type"
@@ -50,82 +44,74 @@ parameters:
     type: number
     default: 128
 
+  - name: vnet_name
+    displayName: "VNet Name"
+    type: string
+    default: "default-vnet"
+
+  - name: subnet_name
+    displayName: "Subnet Name"
+    type: string
+    default: "default-subnet"
+
 steps:
-- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
-  displayName: 'Install Terraform'
-  inputs:
-    terraformVersion: '1.5.7'
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
+    displayName: 'Install Terraform'
+    inputs:
+      terraformVersion: '1.5.7'
 
-- task: TerraformTaskV4@4
-  displayName: 'Terraform Init'
-  inputs:
-    provider: 'azurerm'
-    command: 'init'
-    backendAzureRmUseEntraIdForAuthentication: true
-    backendServiceArm: $(backendServiceConnection)
-    backendAzureRmResourceGroupName: $(backendResourceGroup)
-    backendAzureRmStorageAccountName: $(storageAccount)
-    backendAzureRmContainerName: $(containerName)
-    backendAzureRmKey: $(tfstateKey)
-    #workingDirectory: .
+  - task: TerraformTaskV4@4
+    displayName: 'Terraform Init'
+    inputs:
+      provider: 'azurerm'
+      command: 'init'
+      backendAzureRmUseEntraIdForAuthentication: true
+      backendServiceArm: $(backendServiceConnection)
+      backendAzureRmResourceGroupName: $(backendResourceGroup)
+      backendAzureRmStorageAccountName: $(storageAccount)
+      backendAzureRmContainerName: $(containerName)
+      backendAzureRmKey: $(tfstateKey)
+      # workingDirectory: .
 
-# Step 3: Force Unlock Terraform State
-- script: |
-    echo "⚠️ WARNING: Forcing unlock of Terraform state!"
-    terraform force-unlock -force d2be9c72-a481-c8ea-e96c-64fef402532f
-  #workingDirectory: $(tfWorkingDir)
-  displayName: 'Force Unlock Terraform State'
-  env:
-    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-    ARM_TENANT_ID: $(ARM_TENANT_ID)
+  - script: |
+      echo "VM NAME: ${{ parameters.vm_name }}"
+      echo "RESOURCE GROUP: ${{ parameters.resource_group_name }}"
+      echo "REGION: ${{ parameters.region }}"
+      echo "DISK TYPE: ${{ parameters.disk_type }}"
+      echo "DISK COUNT: ${{ parameters.disk_count }}"
+      echo "DISK SIZE (GB): ${{ parameters.disk_size_gb }}"
+      echo "VNET NAME: ${{ parameters.vnet_name }}"
+      echo "SUBNET NAME: ${{ parameters.subnet_name }}"
+    displayName: '🔍 Debug: Show input values'
 
+  - task: TerraformTaskV4@4
+    displayName: 'Terraform Plan'
+    inputs:
+      provider: 'azurerm'
+      command: 'plan'
+      environmentServiceNameAzureRM: $(planServiceConnection)
+      commandOptions: >
+        -var="vm_name=${{ parameters.vm_name }}"
+        -var="resource_group_name=${{ parameters.resource_group_name }}"
+        -var="region=${{ parameters.region }}"
+        -var="disk_type=${{ parameters.disk_type }}"
+        -var="disk_count=${{ parameters.disk_count }}"
+        -var="disk_size_gb=${{ parameters.disk_size_gb }}"
+        -var="vnet_name=${{ parameters.vnet_name }}"
+        -var="subnet_name=${{ parameters.subnet_name }}"
 
-
-- script: |
-    echo "DISK NAME: ${{ parameters.disk_name }}"
-    echo "VM NAME: ${{ parameters.vm_name }}"
-    echo "RESOURCE GROUP: ${{ parameters.resource_group_name }}"
-    echo "REGION: ${{ parameters.region }}"
-    echo "DISK TYPE: ${{ parameters.disk_type }}"
-    echo "DISK COUNT: ${{ parameters.disk_count }}"
-    echo "DISK SIZE (GB): ${{ parameters.disk_size_gb }}"
-  displayName: '🔍 Debug: Show input values'
-
-- task: TerraformTaskV4@4
-  displayName: 'Terraform Plan'
-  inputs:
-    provider: 'azurerm'
-    command: 'plan'
-    environmentServiceNameAzureRM: $(planServiceConnection)
-    #workingDirectory: .
-    commandOptions: >
-commandOptions: >
-  -var="vm_name=\"${{ parameters.vm_name }}\""
-  -var="resource_group_name=\"${{ parameters.resource_group_name }}\""
-  -var="region=\"${{ parameters.region }}\""
-  -var="disk_name=\"${{ parameters.disk_name }}\""
-  -var="disk_type=\"${{ parameters.disk_type }}\""
-  -var="disk_count=${{ parameters.disk_count }}"
-  -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-
-    
-
-- task: TerraformTaskV4@4
-  displayName: 'Terraform Apply'
-  inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    environmentServiceNameAzureRM: $(applyServiceConnection)
-   # workingDirectory: .
-commandOptions: >
-  -var="vm_name=\"${{ parameters.vm_name }}\""
-  -var="resource_group_name=\"${{ parameters.resource_group_name }}\""
-  -var="region=\"${{ parameters.region }}\""
-  -var="disk_name=\"${{ parameters.disk_name }}\""
-  -var="disk_type=\"${{ parameters.disk_type }}\""
-  -var="disk_count=${{ parameters.disk_count }}"
-  -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-
-   
+  - task: TerraformTaskV4@4
+    displayName: 'Terraform Apply'
+    inputs:
+      provider: 'azurerm'
+      command: 'apply'
+      environmentServiceNameAzureRM: $(applyServiceConnection)
+      commandOptions: >
+        -var="vm_name=${{ parameters.vm_name }}"
+        -var="resource_group_name=${{ parameters.resource_group_name }}"
+        -var="region=${{ parameters.region }}"
+        -var="disk_type=${{ parameters.disk_type }}"
+        -var="disk_count=${{ parameters.disk_count }}"
+        -var="disk_size_gb=${{ parameters.disk_size_gb }}"
+        -var="vnet_name=${{ parameters.vnet_name }}"
+        -var="subnet_name=${{ parameters.subnet_name }}"
