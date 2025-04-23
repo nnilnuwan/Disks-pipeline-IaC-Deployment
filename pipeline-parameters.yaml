@@ -1,0 +1,42 @@
+parameters:
+  - name: vm_name
+    displayName: "Virtual Machine Name"
+    type: string
+    default: "demo-vm1"
+    values:
+      - demo-vm1
+      - production-vm22
+      - staging-vm05
+
+
+  - name: resource_group_name
+    displayName: "Resource Group Name"
+    type: string
+    default: "test-RG"
+
+  - name: region
+    displayName: "Azure Region"
+    type: string
+    default: "East US"
+
+  - name: disk_type
+    displayName: "Disk Type"
+    type: string
+    default: "Standard_LRS"
+
+  - name: disk_count
+    displayName: "Disk Count"
+    type: number
+    default: 1
+    values:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+
+
+  - name: disk_size_gb
+    displayName: "Disk Size (GB)"
+    type: number
+    default: 128
