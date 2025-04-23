@@ -135,7 +135,7 @@ steps:
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_count=${{ parameters.disk_count }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-      -var="disk_names=[${{ join(",", parameters.disk_names) }}]"
+      -var="disk_names=${{ parameters.disk_names }}"
 
 - task: TerraformTaskV4@4
   displayName: 'Terraform Apply'
@@ -150,4 +150,4 @@ steps:
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_count=${{ parameters.disk_count }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-      -var="disk_names=[${{ join(",", parameters.disk_names) }}]"
+      -var="disk_names=${{ parameters.disk_names }}"
