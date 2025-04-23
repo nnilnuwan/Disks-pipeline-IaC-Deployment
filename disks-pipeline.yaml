@@ -14,7 +14,60 @@ variables:
   #tfWorkingDir: '$(System.DefaultWorkingDirectory)/VM-With-Disks'
 
 parameters:
- - template: pipeline-parameters.yml
+  - name: vm_name
+    displayName: "Virtual Machine Name"
+    type: string
+    default: "demo-vm1"
+    values:
+      - PROD-DB-SVR
+      - PROD-APP-SVR
+      - PROD-CRYSTAL-SVR
+      - PROD-DEMAND-SVR
+      - UAT-DB-SVR
+      - UAT-APP-SVR
+      - DR-DB-SVR
+      - DR-APP-SVR
+      - TEST-DB-SVR
+      - TEST-APP-SVR
+      - DMZ-MGT-SVR01
+      - HNB-SFTP-SVR
+      - DOC-MGT-SVR
+      - FW-SVR
+      - PRD-RODC-SVR
+
+
+  - name: resource_group_name
+    displayName: "Resource Group Name"
+    type: string
+    default: "test-RG"
+
+  - name: region
+    displayName: "Azure Region"
+    type: string
+    default: "East US"
+
+  - name: disk_type
+    displayName: "Disk Type"
+    type: string
+    default: "Standard_LRS"
+
+  - name: disk_count
+    displayName: "Disk Count"
+    type: number
+    default: 1
+    values:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+
+
+  - name: disk_size_gb
+    displayName: "Disk Size (GB)"
+    type: number
+    default: 128
+
 
 steps:
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
