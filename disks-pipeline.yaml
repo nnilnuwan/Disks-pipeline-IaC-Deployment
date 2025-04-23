@@ -45,6 +45,7 @@ parameters:
       - 4
       - 5
 
+
   - name: disk_size_gb
     displayName: "Disk Size (GB)"
     type: number
