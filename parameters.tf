@@ -28,7 +28,8 @@ variable "disk_name" {
   description = "Name of the disk"
 }
 
+
 variable "lun" {
   type        = number
-  description = "Logical Unit Number for the data disk"
+  description = "Logical Unit Number for the data disk (must be unique per VM)"
 }

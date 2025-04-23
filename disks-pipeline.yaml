@@ -131,6 +131,22 @@ steps:
       -var="region=${{ parameters.region }}"
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-      -var="disk_name=${{ parameters.disk_name}}"
-#::contentReference[oaicite:4]{index=4}
- 
+      -var="disk_name=${{ parameters.disk_name }}"
+      -var="lun=${{ parameters.lun }}"
+
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Apply'
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    environmentServiceNameAzureRM: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
+    commandOptions: >
+      -var="vm_name=${{ parameters.vm_name }}"
+      -var="resource_group_name=${{ parameters.resource_group_name }}"
+      -var="region=${{ parameters.region }}"
+      -var="disk_type=${{ parameters.disk_type }}"
+      -var="disk_size_gb=${{ parameters.disk_size_gb }}"
+      -var="disk_name=${{ parameters.disk_name }}"
+      -var="lun=${{ parameters.lun }}"
+
+
