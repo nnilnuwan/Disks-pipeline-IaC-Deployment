@@ -28,7 +28,7 @@ variable "disk_type" {
   description = "Type of the managed disk (e.g. Standard_LRS, Premium_LRS)"
 }
 
-variable "disk_names" {
+variable "disk_name" {
   description = "List of disk names"
-  type        = list(string)
+  type        = string
 }

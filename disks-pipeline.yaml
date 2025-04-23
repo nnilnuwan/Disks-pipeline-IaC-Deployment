@@ -120,6 +120,7 @@ steps:
     echo "DISK TYPE: ${{ parameters.disk_type }}"
     echo "DISK COUNT: ${{ parameters.disk_count }}"
     echo "DISK SIZE (GB): ${{ parameters.disk_size_gb }}"
+    echo "DISK NAME: ${{ parameters.disk_name }}"
   displayName: '🔍 Debug: Show input values'
 
 - task: TerraformTaskV4@4
@@ -135,7 +136,7 @@ steps:
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_count=${{ parameters.disk_count }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-      -var="disk_names=${{ parameters.disk_names }}"
+      -var="disk_names=${{ parameters.disk_name }}"
 
 - task: TerraformTaskV4@4
   displayName: 'Terraform Apply'
@@ -150,4 +151,4 @@ steps:
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_count=${{ parameters.disk_count }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-      -var="disk_names=${{ parameters.disk_names }}"
+      -var="disk_names=${{ parameters.disk_name }}"
