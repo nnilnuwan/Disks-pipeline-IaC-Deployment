@@ -12,7 +12,8 @@ data "azurerm_virtual_machine" "vm" {
 }
 
 resource "azurerm_managed_disk" "data_disk" {
-  name                 = var.disk_names[0]  
+  count                = length(var.disk_names)
+  name                 = var.disk_names[count.index]
   location             = data.azurerm_resource_group.rg.location
   resource_group_name  = data.azurerm_resource_group.rg.name
   storage_account_type = var.disk_type
@@ -20,13 +21,16 @@ resource "azurerm_managed_disk" "data_disk" {
   disk_size_gb         = var.disk_size_gb
 
   lifecycle {
-    create_before_destroy = true  # Ensure the new disk is created before destroying any existing ones
+    ignore_changes = [
+      name, 
+    ]
   }
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "disk_attachment" {
-  managed_disk_id    = azurerm_managed_disk.data_disk.id
-  virtual_machine_id = data.azurerm_virtual_machine.vm.id
-  lun                = 0
-  caching            = "ReadWrite"
+  count               = length(var.disk_names)
+  managed_disk_id     = azurerm_managed_disk.data_disk[count.index].id
+  virtual_machine_id  = data.azurerm_virtual_machine.vm.id
+  lun                 = count.index
+  caching             = "ReadWrite"
 }
