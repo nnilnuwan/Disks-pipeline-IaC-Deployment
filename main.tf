@@ -13,7 +13,7 @@ data "azurerm_virtual_machine" "vm" {
 
 resource "azurerm_managed_disk" "data_disk" {
   count                = length(var.disk_names)
-  name                 = data.disk_names
+  name                 = var.disk_names[count.index]
   location             = data.azurerm_resource_group.rg.location
   resource_group_name  = data.azurerm_resource_group.rg.name
   storage_account_type = var.disk_type
