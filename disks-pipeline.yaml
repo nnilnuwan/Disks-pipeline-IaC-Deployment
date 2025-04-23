@@ -57,11 +57,13 @@ parameters:
     default: "Standard_LRS"
     values:
       - Standard_LRS
-      - Premium_SSD
-      - Premium_SSD_v2
-      - Standerd_SSD
-      - Standerd_HDD
-      - Ultra_Disk
+      - StandardSSD_LRS
+      - StandardSSD_ZRS
+      - Premium_LRS
+      - Premium_ZRS
+      - PremiumV2_LRS
+      - UltraSSD_LRS
+
 
 
   - name: disk_count
