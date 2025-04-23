@@ -132,5 +132,5 @@ steps:
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
       -var="disk_name=${{ parameters.disk_name
-::contentReference[oaicite:4]{index=4}
+#::contentReference[oaicite:4]{index=4}
  
