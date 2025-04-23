@@ -13,11 +13,6 @@ variables:
   applyServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
 
 parameters:
-  - name: disk_names
-    displayName: "Disk Name"
-    type: string
-    default: "vmname-diskname-no"
-
   - name: vm_name
     displayName: "Virtual Machine Name"
     type: string
@@ -26,19 +21,6 @@ parameters:
       - demo-vm1
       - PROD-DB-SVR
       - PROD-APP-SVR
-      - PROD-CRYSTAL-SVR
-      - PROD-DEMAND-SVR
-      - UAT-DB-SVR
-      - UAT-APP-SVR
-      - DR-DB-SVR
-      - DR-APP-SVR
-      - TEST-DB-SVR
-      - TEST-APP-SVR
-      - DMZ-MGT-SVR01
-      - HNB-SFTP-SVR
-      - DOC-MGT-SVR
-      - FW-SVR
-      - PRD-RODC-SVR
 
   - name: resource_group_name
     displayName: "Resource Group Name"
@@ -46,8 +28,6 @@ parameters:
     values:
       - test-RG
       - prd-RG
-      - dev-RG
-      - qa-RG
 
   - name: region
     displayName: "Azure Region"
@@ -60,40 +40,19 @@ parameters:
     default: "Standard_LRS"
     values:
       - Standard_LRS
-      - StandardSSD_LRS
-      - StandardSSD_ZRS
       - Premium_LRS
-      - Premium_ZRS
-      - PremiumV2_LRS
-      - UltraSSD_LRS
-
-  - name: disk_count
-    displayName: "Disk Count"
-    type: number
-    default: 1
-    values:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
 
   - name: disk_size_gb
     displayName: "Disk Size (GB)"
     type: number
     values:
-      - 4
-      - 8
-      - 16
-      - 32
-      - 64
       - 128
       - 256
-      - 512
-      - 1024
-      - 2048
-      - 4096
-      - 8192
+
+  - name: disk_names
+    displayName: "Disk Name"
+    type: string
+    default: "vmname-diskname-no1"
 
 steps:
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
@@ -118,9 +77,8 @@ steps:
     echo "RESOURCE GROUP: ${{ parameters.resource_group_name }}"
     echo "REGION: ${{ parameters.region }}"
     echo "DISK TYPE: ${{ parameters.disk_type }}"
-    echo "DISK COUNT: ${{ parameters.disk_count }}"
     echo "DISK SIZE (GB): ${{ parameters.disk_size_gb }}"
-    echo "DISK NAME: ${{ parameters.disk_name }}"
+    echo "DISK NAMES: ${{ parameters.disk_names }}"
   displayName: '🔍 Debug: Show input values'
 
 - task: TerraformTaskV4@4
@@ -134,9 +92,8 @@ steps:
       -var="resource_group_name=${{ parameters.resource_group_name }}"
       -var="region=${{ parameters.region }}"
       -var="disk_type=${{ parameters.disk_type }}"
-      -var="disk_count=${{ parameters.disk_count }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-      -var="disk_names=${{ parameters.disk_name }}"
+      -var="disk_names=[\"${{ parameters.disk_names }}\"]"
 
 - task: TerraformTaskV4@4
   displayName: 'Terraform Apply'
@@ -149,6 +106,5 @@ steps:
       -var="resource_group_name=${{ parameters.resource_group_name }}"
       -var="region=${{ parameters.region }}"
       -var="disk_type=${{ parameters.disk_type }}"
-      -var="disk_count=${{ parameters.disk_count }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-      -var="disk_names=${{ parameters.disk_name }}"
+      -var="disk_names=[\"${{ parameters.disk_names }}\"]"
