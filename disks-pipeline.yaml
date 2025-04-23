@@ -21,6 +21,19 @@ parameters:
       - demo-vm1
       - PROD-DB-SVR
       - PROD-APP-SVR
+      - PROD-CRYSTAL-SVR
+      - PROD-DEMAND-SVR
+      - UAT-DB-SVR
+      - UAT-APP-SVR
+      - DR-DB-SVR
+      - DR-APP-SVR
+      - TEST-DB-SVR
+      - TEST-APP-SVR
+      - DMZ-MGT-SVR01
+      - HNB-SFTP-SVR
+      - DOC-MGT-SVR
+      - FW-SVR
+      - PRD-RODC-SVR
 
   - name: resource_group_name
     displayName: "Resource Group Name"
@@ -28,6 +41,8 @@ parameters:
     values:
       - test-RG
       - prd-RG
+      - dev-RG
+      - qa-RG
 
   - name: region
     displayName: "Azure Region"
@@ -40,19 +55,35 @@ parameters:
     default: "Standard_LRS"
     values:
       - Standard_LRS
+      - StandardSSD_LRS
+      - StandardSSD_ZRS
       - Premium_LRS
+      - Premium_ZRS
+      - PremiumV2_LRS
+      - UltraSSD_LRS
 
   - name: disk_size_gb
     displayName: "Disk Size (GB)"
     type: number
     values:
+      - 4
+      - 8
+      - 16
+      - 32
+      - 64
       - 128
       - 256
+      - 512
+      - 1024
+      - 2048
+      - 4096
+      - 8192
 
   - name: disk_names
     displayName: "Disk Name"
     type: string
-    default: "vmname-diskname-no1"
+    default: "vmname-diskname-no"
+
 
 steps:
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
