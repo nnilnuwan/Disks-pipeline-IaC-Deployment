@@ -23,7 +23,12 @@ variable "disk_type" {
   description = "Type of the managed disk (e.g. Standard_LRS, Premium_LRS)"
 }
 
-variable "disk_names" {
-  type        = list(string)
-  description = "List of disk names"
+variable "disk_name" {
+  type        = string
+  description = "Name of the disk"
+}
+
+variable "lun" {
+  type        = number
+  description = "Logical Unit Number for the data disk"
 }

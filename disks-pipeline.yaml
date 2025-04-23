@@ -75,10 +75,15 @@ parameters:
       - 4096
       - 8192
 
-  - name: disk_names
+  - name: disk_name
     displayName: "Disk Name"
     type: string
     default: "vmname-diskname-no"
+
+  - name: lun
+    displayName: "LUN (Logical Unit Number)"
+    type: number
+    default: 0
 
   - name: state_suffix
     displayName: "State File Suffix (e.g. disk01, disk02)"
@@ -109,7 +114,8 @@ steps:
     echo "REGION: ${{ parameters.region }}"
     echo "DISK TYPE: ${{ parameters.disk_type }}"
     echo "DISK SIZE (GB): ${{ parameters.disk_size_gb }}"
-    echo "DISK NAMES: ${{ parameters.disk_names }}"
+    echo "DISK NAME: ${{ parameters.disk_name }}"
+    echo "LUN: ${{ parameters.lun }}"
     echo "STATE SUFFIX: ${{ parameters.state_suffix }}"
   displayName: '🔍 Debug: Show input values'
 
@@ -125,18 +131,6 @@ steps:
       -var="region=${{ parameters.region }}"
       -var="disk_type=${{ parameters.disk_type }}"
       -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-      -var="disk_names=[\"${{ parameters.disk_names }}\"]"
-
-- task: TerraformTaskV4@4
-  displayName: 'Terraform Apply'
-  inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    environmentServiceNameAzureRM: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
-    commandOptions: >
-      -var="vm_name=${{ parameters.vm_name }}"
-      -var="resource_group_name=${{ parameters.resource_group_name }}"
-      -var="region=${{ parameters.region }}"
-      -var="disk_type=${{ parameters.disk_type }}"
-      -var="disk_size_gb=${{ parameters.disk_size_gb }}"
-      -var="disk_names=[\"${{ parameters.disk_names }}\"]"
+      -var="disk_name=${{ parameters.disk_name
+::contentReference[oaicite:4]{index=4}
+ 
