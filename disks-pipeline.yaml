@@ -44,15 +44,6 @@ parameters:
     type: number
     default: 128
 
-  - name: vnet_name
-    displayName: "VNet Name"
-    type: string
-    default: "default-vnet"
-
-  - name: subnet_name
-    displayName: "Subnet Name"
-    type: string
-    default: "default-subnet"
 
 steps:
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
