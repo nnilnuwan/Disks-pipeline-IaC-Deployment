@@ -57,6 +57,7 @@ parameters:
     default: "Standard_LRS"
     values:
       - Standard_LRS
+      - Premium_SSD
       - Premium_SSD_v2
       - Standerd_SSD
       - Standerd_HDD
