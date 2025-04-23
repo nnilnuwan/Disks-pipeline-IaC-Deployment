@@ -1,31 +1,31 @@
 variable "resource_group_name" {
-  description = "Resource group name"
   type        = string
+  description = "Resource group name"
 }
 
 variable "region" {
-  description = "Azure region"
   type        = string
+  description = "Azure region"
 }
 
 variable "vm_name" {
-  description = "Name of the existing virtual machine"
   type        = string
+  description = "Name of the existing virtual machine"
 }
 
 variable "disk_count" {
-  description = "Number of data disks to attach"
   type        = number
+  description = "Number of data disks to attach"
 }
 
 variable "disk_size_gb" {
-  description = "Size of each disk in GB"
   type        = number
+  description = "Size of each disk in GB"
 }
 
 variable "disk_type" {
-  description = "Type of the managed disk (e.g. Standard_LRS, Premium_LRS)"
   type        = string
+  description = "Type of the managed disk (e.g. Standard_LRS, Premium_LRS)"
 }
 
 variable "disk_names" {
