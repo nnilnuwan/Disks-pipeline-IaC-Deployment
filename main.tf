@@ -2,6 +2,15 @@ provider "azurerm" {
   features {}
 }
 
+data "azurerm_resource_group" "rg" {
+  name = var.resource_group_name
+}
+
+data "azurerm_virtual_machine" "vm" {
+  name                = var.vm_name
+  resource_group_name = data.azurerm_resource_group.rg.name
+}
+
 resource "azurerm_managed_disk" "data_disk" {
   name                 = var.disk_names[0]  
   location             = data.azurerm_resource_group.rg.location
