@@ -37,7 +37,13 @@ parameters:
   - name: disk_count
     displayName: "Disk Count"
     type: number
-    default: 2
+    default: 1
+    values:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
 
   - name: disk_size_gb
     displayName: "Disk Size (GB)"
