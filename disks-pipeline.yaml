@@ -63,16 +63,7 @@ steps:
     backendAzureRmContainerName: $(containerName)
     backendAzureRmKey: $(tfstateKey)
 
-
-- script: |
-    echo "⚠️ WARNING: Forcing unlock of Terraform state!"
-    terraform force-unlock -force a6334d1d-5be3-a193-1319-b9383776ac50
-  displayName: 'Force Unlock Terraform State'
-  env:
-    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-    ARM_TENANT_ID: $(ARM_TENANT_ID)    
+   
     
 - script: |
     echo "VM NAME: ${{ parameters.vm_name }}"
