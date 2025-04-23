@@ -32,3 +32,10 @@ variable "disk_type" {
 }
 
 
+variable "disk_names" {
+  description = "List of disk names"
+  type        = list(string)
+}
+
+
+

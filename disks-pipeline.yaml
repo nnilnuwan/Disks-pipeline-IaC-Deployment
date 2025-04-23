@@ -14,6 +14,12 @@ variables:
   #tfWorkingDir: '$(System.DefaultWorkingDirectory)/VM-With-Disks'
 
 parameters:
+
+  - name: disk_names
+    displayName: "Disk Name"
+    type: string
+    default: "vmname-diskname-no"
+
   - name: vm_name
     displayName: "Virtual Machine Name"
     type: string
