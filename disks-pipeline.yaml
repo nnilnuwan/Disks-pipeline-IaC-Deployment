@@ -19,7 +19,7 @@ parameters:
     type: string
     default: "demo-vm1"
     values:
-      - demo-vm01
+      - demo-vm1
       - PROD-DB-SVR
       - PROD-APP-SVR
       - PROD-CRYSTAL-SVR
