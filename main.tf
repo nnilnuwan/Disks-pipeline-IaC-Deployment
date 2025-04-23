@@ -12,8 +12,8 @@ data "azurerm_virtual_machine" "vm" {
 }
 
 resource "azurerm_managed_disk" "data_disk" {
-  for_each             = toset(var.disk_names)
-  name                 = each.key
+  count                = length(var.disk_names)
+  name                 = data.disk_names
   location             = data.azurerm_resource_group.rg.location
   resource_group_name  = data.azurerm_resource_group.rg.name
   storage_account_type = var.disk_type
@@ -22,9 +22,9 @@ resource "azurerm_managed_disk" "data_disk" {
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "disk_attachment" {
-  for_each           = azurerm_managed_disk.data_disk
-  managed_disk_id    = each.value.id
-  virtual_machine_id = data.azurerm_virtual_machine.vm.id
-  lun                = index(keys(azurerm_managed_disk.data_disk), each.key)
-  caching            = "ReadWrite"
+  count               = length(var.disk_names)
+  managed_disk_id     = azurerm_managed_disk.data_disk[count.index].id
+  virtual_machine_id  = data.azurerm_virtual_machine.vm.id
+  lun                 = count.index
+  caching             = "ReadWrite"
 }

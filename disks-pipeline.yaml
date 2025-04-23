@@ -7,10 +7,6 @@ variables:
   backendResourceGroup: 'backend-storage'
   storageAccount: 'adostorage01'
   containerName: 'backend'
-  tfstateKey: 'vm_with_disks.tfstate'
-  backendServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
-  planServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
-  applyServiceConnection: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
 
 parameters:
   - name: vm_name
@@ -84,6 +80,10 @@ parameters:
     type: string
     default: "vmname-diskname-no"
 
+  - name: state_suffix
+    displayName: "State File Suffix (e.g. disk01, disk02)"
+    type: string
+    default: "disk01"
 
 steps:
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
@@ -97,11 +97,11 @@ steps:
     provider: 'azurerm'
     command: 'init'
     backendAzureRmUseEntraIdForAuthentication: true
-    backendServiceArm: $(backendServiceConnection)
+    backendServiceArm: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
     backendAzureRmResourceGroupName: $(backendResourceGroup)
     backendAzureRmStorageAccountName: $(storageAccount)
     backendAzureRmContainerName: $(containerName)
-    backendAzureRmKey: $(tfstateKey)
+    backendAzureRmKey: 'vm_with_disks-${{ parameters.state_suffix }}.tfstate'
 
 - script: |
     echo "VM NAME: ${{ parameters.vm_name }}"
@@ -110,6 +110,7 @@ steps:
     echo "DISK TYPE: ${{ parameters.disk_type }}"
     echo "DISK SIZE (GB): ${{ parameters.disk_size_gb }}"
     echo "DISK NAMES: ${{ parameters.disk_names }}"
+    echo "STATE SUFFIX: ${{ parameters.state_suffix }}"
   displayName: '🔍 Debug: Show input values'
 
 - task: TerraformTaskV4@4
@@ -117,7 +118,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'plan'
-    environmentServiceNameAzureRM: $(planServiceConnection)
+    environmentServiceNameAzureRM: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
     commandOptions: >
       -var="vm_name=${{ parameters.vm_name }}"
       -var="resource_group_name=${{ parameters.resource_group_name }}"
@@ -131,7 +132,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'apply'
-    environmentServiceNameAzureRM: $(applyServiceConnection)
+    environmentServiceNameAzureRM: '25-Sponsorship-A(4)(0dff3de7-eade-40a0-822b-87187ef66758)'
     commandOptions: >
       -var="vm_name=${{ parameters.vm_name }}"
       -var="resource_group_name=${{ parameters.resource_group_name }}"
