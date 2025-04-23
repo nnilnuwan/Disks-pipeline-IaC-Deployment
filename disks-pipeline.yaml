@@ -14,7 +14,7 @@ variables:
   #tfWorkingDir: '$(System.DefaultWorkingDirectory)/VM-With-Disks'
 
 parameters:
- - template: disk-parameters.yml
+ - template: pipeline-parameters.yml
 
 steps:
 - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
