@@ -20,11 +20,6 @@ resource "azurerm_managed_disk" "data_disk" {
   create_option        = "Empty"
   disk_size_gb         = var.disk_size_gb
 
-  lifecycle {
-    ignore_changes = [
-      name, 
-    ]
-  }
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "disk_attachment" {
