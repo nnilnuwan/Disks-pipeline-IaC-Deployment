@@ -24,6 +24,7 @@ resource "azurerm_managed_disk" "data_disk" {
   }
 }
 
+
 resource "azurerm_virtual_machine_data_disk_attachment" "disk_attachment" {
   managed_disk_id    = azurerm_managed_disk.data_disk.id
   virtual_machine_id = data.azurerm_virtual_machine.vm.id
