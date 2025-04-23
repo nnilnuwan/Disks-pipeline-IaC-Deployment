@@ -45,12 +45,19 @@ parameters:
   - name: region
     displayName: "Azure Region"
     type: string
-    default: "East US"
+    default: "Southeast Asia"
 
   - name: disk_type
     displayName: "Disk Type"
     type: string
     default: "Standard_LRS"
+    values:
+      - Standard_LRS
+      - Premium_SSD_v2
+      - Standerd_SSD
+      - Standerd_HDD
+      - Ultra_Disk
+
 
   - name: disk_count
     displayName: "Disk Count"
