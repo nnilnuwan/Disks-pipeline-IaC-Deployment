@@ -31,3 +31,4 @@ variable "disk_type" {
   #default     = "Standard_LRS"
 }
 
+
